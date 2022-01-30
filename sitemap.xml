@@ -16,11 +16,6 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>http://jorisroovers.github.io/gitlint/contributing/</loc>
-         <lastmod>2021-11-28</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
          <loc>http://jorisroovers.github.io/gitlint/rules/</loc>
          <lastmod>2021-11-28</lastmod>
          <changefreq>daily</changefreq>
