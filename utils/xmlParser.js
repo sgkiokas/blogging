@@ -1,9 +1,25 @@
 const fs = require('fs');
 const path = require('path');
+const _ = require('lodash');
 
 const xmlTagIdentifier = '/(<.[^(><.)]+>)/';
 const fileExtension = '.html';
 const parsedTagsList = ['h2'];
+const lunrIndexTemplate = {
+    location: 'h2',
+    text: '',
+    title: ''
+};
+
+const inverse = (input) => {
+    let invertedObject = {};
+
+    for(let key in input) {
+        invertedObject[input[key]] = key;
+    }
+
+    return invertedObject;
+}
 
 const findFilesInDir = (startPath, filter) => {
     let results = [];
@@ -31,5 +47,7 @@ inputFiles.forEach(file => {
     const tagContent = content.match(filter).map(text => {
         return text.replace(new RegExp(`<\/?${tag}(.*?)>`, 'g'), '')
     });
+
+    const searchIndexEntry = _.set(lunrIndexTemplate, inverse(lunrIndexTemplate)[tag], tagContent[0]);
    });
 });
