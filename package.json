@@ -1,0 +1,23 @@
+{
+  "name": "blogging",
+  "version": "1.0.0",
+  "description": "",
+  "main": "extra.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sgkiokas/blogging.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/sgkiokas/blogging/issues"
+  },
+  "homepage": "https://github.com/sgkiokas/blogging#readme",
+  "devDependencies": {
+    "fs": "^0.0.1-security",
+    "path": "^0.12.7"
+  }
+}
