@@ -83,7 +83,7 @@
                         <div class="section">
                            <h1 id="blogposts">Blog Posts</h1>
                            <h2 id="jira-integration-action">Jira Server Integration GitHub Action: From Thrill to Chill</h2>
-                           <p>
+                           <p data-selector="text">
                              Everything started when we were looking to close the gap identified for reporting the security vulnerabilities found in our Web and Mobile app.
                              - Have we bought some licenses for tools performing static and dynamic code analysis? Yep.
                              - Have we built some audit related GitHub actions to run some checks against our application? Sure.
@@ -91,14 +91,14 @@
                              - Do we have a way to automatically create consolidated reports for those findings? Do we? Dead silence…
                            </p>
                            <h2 id="commandline-config">Commandline config</h2>
-                           <p>You can also use one or more <code>-c</code> flags like so:</p>
+                           <p data-selector="text">You can also use one or more <code>-c</code> flags like so:</p>
                            <pre><code>$ gitlint -c general.verbosity=2 -c title-max-length.line-length=80 -c B1.line-length=100
 </code></pre>
-                           <p>The generic config flag format is <code>-c &lt;rule&gt;.&lt;option&gt;=&lt;value&gt;</code> and supports all the same rules and options which
+                           <p data-selector="text">The generic config flag format is <code>-c &lt;rule&gt;.&lt;option&gt;=&lt;value&gt;</code> and supports all the same rules and options which
                               you can also use in a <code>.gitlint</code> config file.
                            </p>
                            <h2 id="commit-specific-config">Commit specific config</h2>
-                           <p>You can also configure gitlint by adding specific lines to your commit message.
+                           <p data-selector="text">You can also configure gitlint by adding specific lines to your commit message.
                               For now, we only support ignoring commits by adding <code>gitlint-ignore: all</code> to the commit
                               message like so:
                            </p>
@@ -107,15 +107,15 @@
 I want gitlint to ignore this entire commit message.
 gitlint-ignore: all
 </code></pre>
-                           <p><code>gitlint-ignore: all</code> can occur on any line, as long as it is at the start of the line.</p>
-                           <p>You can also specify specific rules to be ignored as follows: </p>
+                           <p data-selector="text"><code>gitlint-ignore: all</code> can occur on any line, as long as it is at the start of the line.</p>
+                           <p data-selector="text">You can also specify specific rules to be ignored as follows: </p>
                            <pre><code>WIP: This is my commit message
 
 I want gitlint to ignore this entire commit message.
 gitlint-ignore: T1, body-hard-tab
 </code></pre>
                            <h2 id="configuration-precedence">Configuration precedence</h2>
-                           <p>gitlint configuration is applied in the following order of precedence:</p>
+                           <p data-selector="text">gitlint configuration is applied in the following order of precedence:</p>
                            <ol>
                               <li>Commit specific config (e.g.: <code>gitlint-ignore: all</code> in the commit message)</li>
                               <li>Configuration Rules (e.g.: <a href="/rules/#i1-ignore-by-title">ignore-by-title</a>)</li>

@@ -1,25 +1,22 @@
 const fs = require('fs');
 const path = require('path');
+const jsdom = require("jsdom");
+const { JSDOM } = jsdom;
 const _ = require('lodash');
 
-const xmlTagIdentifier = '/(<.[^(><.)]+>)/';
+const H2_TAG = 'h2';
+const P_TAG = 'p';
+const LOCATION = 'location';
+const TEXT = 'text';
+const TITLE = 'title';
+
 const fileExtension = '.html';
-const parsedTagsList = ['h2'];
+const parsedTagsList = [H2_TAG, P_TAG];
 const lunrIndexTemplate = {
-    location: 'h2',
-    text: '',
-    title: ''
+    [LOCATION]: '',
+    [TEXT]: '',
+    [TITLE]: ''
 };
-
-const inverse = (input) => {
-    let invertedObject = {};
-
-    for(let key in input) {
-        invertedObject[input[key]] = key;
-    }
-
-    return invertedObject;
-}
 
 const findFilesInDir = (startPath, filter) => {
     let results = [];
@@ -41,13 +38,18 @@ const findFilesInDir = (startPath, filter) => {
 const inputFiles = findFilesInDir('configuration/', fileExtension);
 
 inputFiles.forEach(file => {
-   const content = fs.readFileSync(file).toString();
-   parsedTagsList.forEach(tag => {
-    const filter = new RegExp(`<${tag}(.*?)>(.*?)<\\/${tag}>`, 'g');
-    const tagContent = content.match(filter).map(text => {
-        return text.replace(new RegExp(`<\/?${tag}(.*?)>`, 'g'), '')
-    });
+    const fileToDOM = new JSDOM(fs.readFileSync(file).toString());
 
-    const searchIndexEntry = _.set(lunrIndexTemplate, inverse(lunrIndexTemplate)[tag], tagContent[0]);
-   });
+    parsedTagsList.forEach(tag => {
+        fileToDOM.window.document.querySelectorAll(tag).forEach(individualEntry => {
+            if (tag === H2_TAG) {
+                _.set(lunrIndexTemplate, LOCATION, individualEntry.textContent);
+                _.set(lunrIndexTemplate, TITLE, individualEntry.getAttribute('id'));
+            } else {
+                if (individualEntry.getAttribute('data-selector') !== null) {
+                    _.set(lunrIndexTemplate, TEXT, individualEntry.textContent);
+                }
+            }
+        })
+    });
 });

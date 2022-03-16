@@ -4,7 +4,8 @@
   "description": "",
   "main": "extra.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "./node_modules/.bin/eslint"
   },
   "repository": {
     "type": "git",
@@ -17,7 +18,9 @@
   },
   "homepage": "https://github.com/sgkiokas/blogging#readme",
   "devDependencies": {
+    "eslint": "^8.11.0",
     "fs": "^0.0.1-security",
+    "jsdom": "^19.0.0",
     "lodash": "^4.17.21",
     "path": "^0.12.7"
   }
