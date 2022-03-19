@@ -2,7 +2,6 @@ const fs = require('fs');
 const path = require('path');
 const jsdom = require("jsdom");
 const { JSDOM } = jsdom;
-const _ = require('lodash');
 
 const H2_TAG = 'h2';
 const P_TAG = 'p';
@@ -11,7 +10,6 @@ const TEXT = 'text';
 const TITLE = 'title';
 
 const fileExtension = '.html';
-const parsedTagsList = [H2_TAG, P_TAG];
 const lunrIndexTemplate = {
     [LOCATION]: '',
     [TEXT]: '',
@@ -35,21 +33,32 @@ const findFilesInDir = (startPath, filter) => {
     return results;
 };
 
-const inputFiles = findFilesInDir('configuration/', fileExtension);
+const inputFiles = findFilesInDir(process.env.LOOKUP_DIRECTORY, fileExtension);
 
 inputFiles.forEach(file => {
     const fileToDOM = new JSDOM(fs.readFileSync(file).toString());
+    const searchIndeces = [];
+    let P_index = 0;
 
-    parsedTagsList.forEach(tag => {
-        fileToDOM.window.document.querySelectorAll(tag).forEach(individualEntry => {
-            if (tag === H2_TAG) {
-                _.set(lunrIndexTemplate, LOCATION, individualEntry.textContent);
-                _.set(lunrIndexTemplate, TITLE, individualEntry.getAttribute('id'));
-            } else {
-                if (individualEntry.getAttribute('data-selector') !== null) {
-                    _.set(lunrIndexTemplate, TEXT, individualEntry.textContent);
-                }
+    fileToDOM.window.document.querySelectorAll(H2_TAG).forEach(individualEntry => {
+        const searchIndex = {...lunrIndexTemplate,
+            [LOCATION]: individualEntry.textContent,
+            [TITLE]: individualEntry.getAttribute('id'),
+            [TEXT]: P_index };
+
+        searchIndeces.push(searchIndex);
+        P_index++;
+    });
+
+    P_index = 0;
+    fileToDOM.window.document.querySelectorAll(P_TAG).forEach(individualEntry => {
+        if (individualEntry.getAttribute('data-selector')) {
+            const pTagContent = individualEntry.textContent;
+
+            if (pTagContent && searchIndeces[P_index]) {
+                searchIndeces[P_index][TEXT] = pTagContent;
+                P_index++;
             }
-        })
+        }
     });
 });
